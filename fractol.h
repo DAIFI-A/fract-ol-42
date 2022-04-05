@@ -3,6 +3,12 @@
 # include <mlx.h>
 #include <math.h>
 
+typedef struct cor
+{
+	double	corx;
+	double	cory;
+} t_cor;
+
 typedef struct s_data
 {
 	int		i;
@@ -10,6 +16,11 @@ typedef struct s_data
 	void	*mlx;
 	void	*mlx_win;
 	int		*addr;
+	int		x;
+	int		y;
+	void	*zoom;
+	double	zoomx;
+	double	zoomy;
 	int		width;
 	int		height;
 	void	*img;
@@ -23,7 +34,16 @@ typedef struct s_data
 	double		minr;
 	double		mini;
 	int			itter;
+	t_cor		c;
+	t_cor		cor;
 }		t_data;
 
+
+
+
+void	draw(t_data *fractol);
+int	zoom(int keycode, int x, int y, t_data *fractol);
+void	clear_redraw(t_data *var);
+int	closer(int keycode, t_data *var);
 
 # endif

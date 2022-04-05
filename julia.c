@@ -43,21 +43,20 @@ int	zoom(int keycode, int x, int y, t_data *fractol)
 	return(0);
 }
 
-int	itter(double cr, double ci, double max, t_data *fra)
+int	itter(double cr, double ci, double max, t_cor cor)
 {
-	double	zr;
-	double	zi;
+	t_cor	z;
 	double	tmp;
 	int		i;
 
-	zr = 0;
-	zi = 0;
+	z.corx = cr;
+	z.cory = ci;
 	i = 0;
-	while(i < max && (zr * zr + zi * zi) <= 4)
+	while(i < max && (z.corx * z.corx + z.cory * z.cory) <= 4)
 	{
-		tmp = zr;
-		zr = zr * zr - zi * zi + fra->zoomx;
-		zi = 2*zi * tmp + fra->zoomy;
+		tmp = z.corx;
+		z.corx = z.corx * z.corx - z.cory * z.cory + cor.corx;
+		z.cory = 2*z.cory * tmp + cor.cory;
 		i++;
 	}
 	return (i);
@@ -79,18 +78,18 @@ void	draw(t_data *fractol)
 	fractol->addr = (int *)mlx_get_data_addr(fractol->img, &fractol->bit_per_pixel, &fractol->line_lenght, &fractol->endian);
 	while(x < 500)
 	{
-		fractol->corx = fractol->minr + (fractol->maxr - fractol->minr) * x / 500;
+		fractol->cr = fractol->minr + (fractol->maxr - fractol->minr) * x / 500;
 		y = 0;
 		while(y < 500)
 		{
-			fractol->cory = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
-			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol);
-			if (itter(fractol->cr, fractol->ci, fractol->itter, fractol) == fractol->itter)
+			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
+			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol->c);
+			if (i == fractol->itter)
 			{
 				fractol->addr[(y*500) + x] = 0x000000;
 			}
 			else
-				fractol->addr[(y*500) + x] = 0xffffff*i;
+				fractol->addr[(y*500) + x] = 0xffffff;
 			y++;
 		}
 		x++;
@@ -106,25 +105,25 @@ int	keycode(int keycode, t_data *data)
 
 int main(int ac, char **av)
 {
-	t_data	data;
+	t_data	*data;
 	int		width;
 	int		height;
 
-	data.mlx = mlx_init();
+	data->mlx = mlx_init();
 	width = 500;
 	height = 500;
-	data.minr = -2;
-	data.mini = -2;
-	data.zoomx = 0.285;
-	data.zoomy = 0.013;
-	data.maxr = 2;
-	data.maxi = 2;
-	data.itter = 250;
-	data.mlx_win = mlx_new_window(data.mlx, width, height, "fract-ol");
-	data.img = mlx_new_image(data.mlx, 500, 500);
+	data->minr = -2;
+	data->mini = -2;
+	data->c.corx = 0.285;
+	data->c.cory = 0.013;
+	data->maxr = 2;
+	data->maxi = 2;
+	data->itter = 250;
+	data->mlx_win = mlx_new_window(data->mlx, width, height, "fract-ol");
+	data->img = mlx_new_image(data->mlx, 500, 500);
 	draw(&data);
-	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
-	mlx_key_hook(data.mlx_win, keycode, &data);
-	mlx_hook(data.mlx_win, 4, 0, &zoom, &data);
-	mlx_loop(data.mlx);
+	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
+	mlx_key_hook(data->mlx_win, keycode, &data);
+	//mlx_hook(data->mlx_win, 4, 0, &zoom, &data);
+	mlx_loop(data->mlx);
 }
