@@ -18,24 +18,22 @@ typedef struct s_data
 	int		*addr;
 	int		x;
 	int		y;
-	void	*zoom;
-	double	zoomx;
-	double	zoomy;
 	int		width;
 	int		height;
 	void	*img;
 	int		bit_per_pixel;
 	int		endian;
 	int		line_lenght;
-	double		cr;
-	double		ci;
-	double		maxr;
-	double		maxi;
-	double		minr;
-	double		mini;
-	int			itter;
-	t_cor		c;
-	t_cor		cor;
+	double	cr;
+	double	ci;
+	double	maxr;
+	double	maxi;
+	double	minr;
+	double	mini;
+	int		itter;
+	double	cx;
+	double	cy;
+	t_cor	zoom;
 }		t_data;
 
 
@@ -44,6 +42,6 @@ typedef struct s_data
 void	draw(t_data *fractol);
 int	zoom(int keycode, int x, int y, t_data *fractol);
 void	clear_redraw(t_data *var);
-int	closer(int keycode, t_data *var);
+int	closer(int button, t_data *var);
 
 # endif

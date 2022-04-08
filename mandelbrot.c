@@ -4,10 +4,18 @@
 # include<unistd.h>
 # include<stdio.h>
 void	draw(t_data *fractol);
-int	closer(int keycode, t_data *var)
+
+int	keypress(int keycode, t_data *fractol)
 {
-	mlx_destroy_window(var->mlx, var->mlx_win);
-	return (0);
+	// if (keycode == 38)
+	// {
+	// 	fractol->cr += 1;
+	// 	fractol->ci += 1;
+	// 	clear_redraw(fractol);
+	// 	write(1, "x", 1);
+	// }
+	printf("%d", keycode);
+	return (1);
 }
 
 void	clear_redraw(t_data *var)
@@ -43,7 +51,7 @@ int	zoom(int keycode, int x, int y, t_data *fractol)
 	return(0);
 }
 
-int	itter(double cr, double ci, double max, t_data *fra)
+int	itter(double cr, double ci, double max)
 {
 	double	zr;
 	double	zi;
@@ -53,20 +61,14 @@ int	itter(double cr, double ci, double max, t_data *fra)
 	zr = 0;
 	zi = 0;
 	i = 0;
-	while(i < max && (zr * zr + zi * zi) <= 4)
+	while(i < max && (zr * zr + zi * zi) < 4)
 	{
 		tmp = zr;
-		zr = zr * zr - zi * zi + fra->zoomx;
-		zi = 2*zi * tmp + fra->zoomy;
+		zr = zr * zr - zi * zi + cr;
+		zi = 2*zi * tmp + ci;
 		i++;
 	}
 	return (i);
-}
-
-void	init(t_data *fra)
-{
-	fra->cr = (fra->x / 500) * (fra->maxr - fra->minr) + fra->minr;
-	fra->ci = (fra->y / 500) * (fra->maxi - fra->mini) + fra->mini;
 }
 
 void	draw(t_data *fractol)
@@ -84,21 +86,28 @@ void	draw(t_data *fractol)
 		while(y < 500)
 		{
 			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
-			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol);
-			if (itter(fractol->cr, fractol->ci, fractol->itter, fractol) == fractol->itter)
+			i = itter(fractol->cr, fractol->ci, fractol->itter);
+			if (itter(fractol->cr, fractol->ci, fractol->itter) == fractol->itter)
 			{
 				fractol->addr[(y*500) + x] = 0x000000;
 			}
 			else
-				fractol->addr[(y*500) + x] = 0x0000ff*i;
+				fractol->addr[(y*500) + x] = 0xffffff*i;
 			y++;
 		}
 		x++;
 	}
 }
 
+int	closer(int button, t_data *var)
+{
+	exit(1);
+	return(0);
+}
+
 int	keycode(int keycode, t_data *data)
 {
+	printf("%d", keycode);
 	if (keycode == 53)
 		exit(1);
 	return (1);
@@ -113,8 +122,6 @@ int main(int ac, char **av)
 	data.mlx = mlx_init();
 	width = 500;
 	height = 500;
-	data.zoomx = 0.285;
-	data.zoomy = 0.013;
 	data.minr = -2;
 	data.mini = -2;
 	data.maxr = 2;
@@ -124,7 +131,9 @@ int main(int ac, char **av)
 	data.img = mlx_new_image(data.mlx, 500, 500);
 	draw(&data);
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
-	mlx_key_hook(data.mlx_win, keycode, &data);
 	mlx_hook(data.mlx_win, 4, 0, &zoom, &data);
+	mlx_key_hook(data.mlx_win, keycode, &data);
+	mlx_hook(data.mlx_win, 17, 0, &closer, &data);
+	mlx_key_hook(data.mlx_win, keypress, &data);
 	mlx_loop(data.mlx);
 }

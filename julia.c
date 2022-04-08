@@ -1,14 +1,9 @@
-#include <mlx.h>
-#include "fractol.h"
+# include<mlx.h>
+# include"fractol.h"
 # include<stdlib.h>
 # include<unistd.h>
+# include<math.h>
 # include<stdio.h>
-void	draw(t_data *fractol);
-int	closer(int keycode, t_data *var)
-{
-	mlx_destroy_window(var->mlx, var->mlx_win);
-	return (0);
-}
 
 void	clear_redraw(t_data *var)
 {
@@ -17,6 +12,29 @@ void	clear_redraw(t_data *var)
 	var->img = mlx_new_image(var->mlx, 500, 500);
 	draw(var);
 	mlx_put_image_to_window(var->mlx, var->mlx_win, var->img, 0, 0);
+}
+
+int	keypress(int keycode, t_data *fractol)
+{
+	int	y;
+	int	x;
+
+	if (keycode == 123)
+	{
+		fractol->minr -= 5;
+		clear_redraw(fractol);
+		write(1, "x", 1);
+	}
+	printf("%d", keycode);
+	return (0);
+}
+
+int	mosse_mov(int x, int y, t_data *fra)
+{
+	fra->zoom.corx = fra->minr + (fra->maxr - fra->minr) * x / 500;
+	fra->zoom.cory = fra->mini + (fra->maxi - fra->mini) * y / 500;
+	clear_redraw(fra);
+	return(0);
 }
 
 int	zoom(int keycode, int x, int y, t_data *fractol)
@@ -43,29 +61,30 @@ int	zoom(int keycode, int x, int y, t_data *fractol)
 	return(0);
 }
 
-int	itter(double cr, double ci, double max, t_cor cor)
+int	itter(double cr, double ci, double max, t_data *fra)
 {
-	t_cor	z;
+	double	zr;
+	double	zi;
 	double	tmp;
 	int		i;
 
-	z.corx = cr;
-	z.cory = ci;
+	zr = cr;
+	zi = ci;
 	i = 0;
-	while(i < max && (z.corx * z.corx + z.cory * z.cory) <= 4)
+	while(i <= max && (zr * zr + zi * zi) <= 4)
 	{
-		tmp = z.corx;
-		z.corx = z.corx * z.corx - z.cory * z.cory + cor.corx;
-		z.cory = 2*z.cory * tmp + cor.cory;
+		tmp = zr;
+		zr = zr * zr - zi * zi - fra->zoom.corx;
+		zi = 2*zi * tmp + fra->zoom.cory;
 		i++;
 	}
 	return (i);
 }
 
-void	init(t_data *fra)
+int	closer(int button, t_data *var)
 {
-	fra->cr = (fra->x / 500) * (fra->maxr - fra->minr) + fra->minr;
-	fra->ci = (fra->y / 500) * (fra->maxi - fra->mini) + fra->mini;
+	exit(1);
+	return(0);
 }
 
 void	draw(t_data *fractol)
@@ -83,13 +102,13 @@ void	draw(t_data *fractol)
 		while(y < 500)
 		{
 			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
-			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol->c);
+			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol);
 			if (i == fractol->itter)
 			{
 				fractol->addr[(y*500) + x] = 0x000000;
 			}
 			else
-				fractol->addr[(y*500) + x] = 0xffffff;
+				fractol->addr[(y*500) + x] = 0xffffff*i;
 			y++;
 		}
 		x++;
@@ -98,6 +117,7 @@ void	draw(t_data *fractol)
 
 int	keycode(int keycode, t_data *data)
 {
+	printf("%d", keycode);
 	if (keycode == 53)
 		exit(1);
 	return (1);
@@ -105,25 +125,29 @@ int	keycode(int keycode, t_data *data)
 
 int main(int ac, char **av)
 {
-	t_data	*data;
+	t_data	data;
 	int		width;
 	int		height;
 
-	data->mlx = mlx_init();
+	data.mlx = mlx_init();
 	width = 500;
 	height = 500;
-	data->minr = -2;
-	data->mini = -2;
-	data->c.corx = 0.285;
-	data->c.cory = 0.013;
-	data->maxr = 2;
-	data->maxi = 2;
-	data->itter = 250;
-	data->mlx_win = mlx_new_window(data->mlx, width, height, "fract-ol");
-	data->img = mlx_new_image(data->mlx, 500, 500);
+	data.zoom.corx = 0.285;
+	data.zoom.cory = 0.013;
+	data.minr = -2;
+	data.mini = -2;
+	data.maxr = 2;
+	data.maxi = 2;
+	data.itter = 250;
+	data.mlx_win = mlx_new_window(data.mlx, width, height, "fract-ol");
+	data.img = mlx_new_image(data.mlx, 500, 500);
 	draw(&data);
-	mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
-	mlx_key_hook(data->mlx_win, keycode, &data);
-	//mlx_hook(data->mlx_win, 4, 0, &zoom, &data);
-	mlx_loop(data->mlx);
+	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
+	mlx_key_hook(data.mlx_win, &keypress, &data);
+	mlx_key_hook(data.mlx_win, keycode, &data);
+	mlx_hook(data.mlx_win, 4, 0, &zoom, &data);
+	mlx_hook(data.mlx_win, 6, 0, &mosse_mov, &data);
+	mlx_hook(data.mlx_win, 17, 0, &closer, &data);
+
+	mlx_loop(data.mlx);
 }
