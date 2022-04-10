@@ -1,65 +1,4 @@
-# include<mlx.h>
 # include"fractol.h"
-# include<stdlib.h>
-# include<unistd.h>
-# include<math.h>
-# include<stdio.h>
-
-void	clear_redraw(t_data *var)
-{
-	mlx_destroy_image(var->mlx, var->img);
-	mlx_clear_window(var->mlx, var->mlx_win);
-	var->img = mlx_new_image(var->mlx, 500, 500);
-	draw(var);
-	mlx_put_image_to_window(var->mlx, var->mlx_win, var->img, 0, 0);
-}
-
-int	keypress(int keycode, t_data *fractol)
-{
-	int	y;
-	int	x;
-
-	if (keycode == 123)
-	{
-		fractol->minr -= 5;
-		clear_redraw(fractol);
-		write(1, "x", 1);
-	}
-	printf("%d", keycode);
-	return (0);
-}
-
-int	mosse_mov(int x, int y, t_data *fra)
-{
-	fra->zoom.corx = fra->minr + (fra->maxr - fra->minr) * x / 500;
-	fra->zoom.cory = fra->mini + (fra->maxi - fra->mini) * y / 500;
-	clear_redraw(fra);
-	return(0);
-}
-
-int	zoom(int keycode, int x, int y, t_data *fractol)
-{
-	double re_range = fractol->minr + ((double)x * (fractol->maxr - fractol->minr)) / 500;
-	double im_range = fractol->mini + ((double)y * (fractol->maxi - fractol->mini)) / 500;
-	if(keycode == 4)
-	{
-		fractol->itter += 15;
-		fractol->minr = re_range + (fractol->minr - re_range) * 0.9;
-		fractol->mini = im_range + (fractol->mini - im_range) * 0.9;
-		fractol->maxr = re_range + (fractol->maxr - re_range) * 0.9;
-		fractol->maxi = im_range + (fractol->maxi - im_range) * 0.9;
-	}
-	if(keycode == 5)
-	{
-		fractol->minr = re_range + (fractol->minr - re_range) * 1.1;
-		fractol->mini = im_range + (fractol->mini - im_range) * 1.1;
-		fractol->maxr = re_range + (fractol->maxr - re_range) * 1.1;
-		fractol->maxi = im_range + (fractol->maxi - im_range) * 1.1;
-		fractol->itter -= 15;
-	}
-	clear_redraw(fractol);
-	return(0);
-}
 
 int	itter(double cr, double ci, double max, t_data *fra)
 {
@@ -81,13 +20,7 @@ int	itter(double cr, double ci, double max, t_data *fra)
 	return (i);
 }
 
-int	closer(int button, t_data *var)
-{
-	exit(1);
-	return(0);
-}
-
-void	draw(t_data *fractol)
+void	draw_julia(t_data *fractol)
 {
 	int		x;
 	int		y;
@@ -115,12 +48,17 @@ void	draw(t_data *fractol)
 	}
 }
 
-int	keycode(int keycode, t_data *data)
+int ft_julia(t_data data)
 {
-	printf("%d", keycode);
-	if (keycode == 53)
-		exit(1);
-	return (1);
+	data.zoom.corx = 0.285;
+	data.zoom.cory = 0.013;
+	data.minr = -2;
+	data.mini = -2;
+	data.maxr = 2;
+	data.maxi = 2;
+	data.itter = 250;
+	draw_julia(&data);
+	return (0);
 }
 
 int main(int ac, char **av)
@@ -129,25 +67,16 @@ int main(int ac, char **av)
 	int		width;
 	int		height;
 
-	data.mlx = mlx_init();
 	width = 500;
 	height = 500;
-	data.zoom.corx = 0.285;
-	data.zoom.cory = 0.013;
-	data.minr = -2;
-	data.mini = -2;
-	data.maxr = 2;
-	data.maxi = 2;
-	data.itter = 250;
+	data.mlx = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx, width, height, "fract-ol");
 	data.img = mlx_new_image(data.mlx, 500, 500);
-	draw(&data);
+	ft_julia(data);
 	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
-	mlx_key_hook(data.mlx_win, &keypress, &data);
 	mlx_key_hook(data.mlx_win, keycode, &data);
 	mlx_hook(data.mlx_win, 4, 0, &zoom, &data);
 	mlx_hook(data.mlx_win, 6, 0, &mosse_mov, &data);
 	mlx_hook(data.mlx_win, 17, 0, &closer, &data);
-
 	mlx_loop(data.mlx);
 }

@@ -5,19 +5,6 @@
 # include<stdio.h>
 void	draw(t_data *fractol);
 
-int	keypress(int keycode, t_data *fractol)
-{
-	// if (keycode == 38)
-	// {
-	// 	fractol->cr += 1;
-	// 	fractol->ci += 1;
-	// 	clear_redraw(fractol);
-	// 	write(1, "x", 1);
-	// }
-	printf("%d", keycode);
-	return (1);
-}
-
 void	clear_redraw(t_data *var)
 {
 	mlx_destroy_image(var->mlx, var->img);
@@ -107,10 +94,9 @@ int	closer(int button, t_data *var)
 
 int	keycode(int keycode, t_data *data)
 {
-	printf("%d", keycode);
 	if (keycode == 53)
 		exit(1);
-	return (1);
+	return (0);
 }
 
 int main(int ac, char **av)
@@ -134,6 +120,5 @@ int main(int ac, char **av)
 	mlx_hook(data.mlx_win, 4, 0, &zoom, &data);
 	mlx_key_hook(data.mlx_win, keycode, &data);
 	mlx_hook(data.mlx_win, 17, 0, &closer, &data);
-	mlx_key_hook(data.mlx_win, keypress, &data);
 	mlx_loop(data.mlx);
 }

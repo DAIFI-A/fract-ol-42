@@ -1,7 +1,11 @@
 # ifndef FRACTOL_H
 #define FRACTOL_H
 # include <mlx.h>
-#include <math.h>
+# include"fractol.h"
+# include<stdlib.h>
+# include<unistd.h>
+# include<math.h>
+# include<stdio.h>
 
 typedef struct cor
 {
@@ -26,6 +30,7 @@ typedef struct s_data
 	int		line_lenght;
 	double	cr;
 	double	ci;
+	int		m;
 	double	maxr;
 	double	maxi;
 	double	minr;
@@ -39,9 +44,13 @@ typedef struct s_data
 
 
 
-void	draw(t_data *fractol);
+void	draw_julia(t_data *fractol);
 int	zoom(int keycode, int x, int y, t_data *fractol);
 void	clear_redraw(t_data *var);
+int	keypress(int keycode, t_data *fractol);
+int	keycode(int keycode, t_data *data);
 int	closer(int button, t_data *var);
+int	ft_julia(t_data data);
+int	mosse_mov(int x, int y, t_data *fra);
 
 # endif
