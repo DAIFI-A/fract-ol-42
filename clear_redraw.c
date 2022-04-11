@@ -2,7 +2,6 @@
 
 int	mosse_mov(int x, int y, t_data *fra)
 {
-
 	fra->zoom.corx = fra->minr + (fra->maxr - fra->minr) * x / 500;
 	fra->zoom.cory = fra->mini + (fra->maxi - fra->mini) * y / 500;
 	clear_redraw(fra);
@@ -38,6 +37,6 @@ void	clear_redraw(t_data *var)
 	mlx_destroy_image(var->mlx, var->img);
 	mlx_clear_window(var->mlx, var->mlx_win);
 	var->img = mlx_new_image(var->mlx, 500, 500);
-	ft_julia(*var);
+	draw_mand(var);
 	mlx_put_image_to_window(var->mlx, var->mlx_win, var->img, 0, 0);
 }

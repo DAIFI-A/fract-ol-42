@@ -27,7 +27,6 @@ void	draw_julia(t_data *fractol)
 	int		i;
 
 	x = 0;
-	fractol->addr = (int *)mlx_get_data_addr(fractol->img, &fractol->bit_per_pixel, &fractol->line_lenght, &fractol->endian);
 	while(x < 500)
 	{
 		fractol->cr = fractol->minr + (fractol->maxr - fractol->minr) * x / 500;
@@ -48,35 +47,14 @@ void	draw_julia(t_data *fractol)
 	}
 }
 
-int ft_julia(t_data data)
+void	ft_julia(t_data *data)
 {
-	data.zoom.corx = 0.285;
-	data.zoom.cory = 0.013;
-	data.minr = -2;
-	data.mini = -2;
-	data.maxr = 2;
-	data.maxi = 2;
-	data.itter = 250;
-	draw_julia(&data);
-	return (0);
-}
-
-int main(int ac, char **av)
-{
-	t_data	data;
-	int		width;
-	int		height;
-
-	width = 500;
-	height = 500;
-	data.mlx = mlx_init();
-	data.mlx_win = mlx_new_window(data.mlx, width, height, "fract-ol");
-	data.img = mlx_new_image(data.mlx, 500, 500);
-	ft_julia(data);
-	mlx_put_image_to_window(data.mlx, data.mlx_win, data.img, 0, 0);
-	mlx_key_hook(data.mlx_win, keycode, &data);
-	mlx_hook(data.mlx_win, 4, 0, &zoom, &data);
-	mlx_hook(data.mlx_win, 6, 0, &mosse_mov, &data);
-	mlx_hook(data.mlx_win, 17, 0, &closer, &data);
-	mlx_loop(data.mlx);
+	data->zoom.corx = 0.3;
+	data->zoom.cory = 0.5;
+	data->minr = -2;
+	data->mini = -2;
+	data->maxr = 2;
+	data->maxi = 2;
+	data->itter = 250;
+	draw_julia(data);
 }
