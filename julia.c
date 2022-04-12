@@ -14,7 +14,7 @@ int	itter(double cr, double ci, double max, t_data *fra)
 	{
 		tmp = zr;
 		zr = zr * zr - zi * zi - fra->zoom.corx;
-		zi = 2*zi * tmp + fra->zoom.cory;
+		zi = 2 * zi * tmp + fra->zoom.cory;
 		i++;
 	}
 	return (i);
@@ -27,6 +27,7 @@ void	draw_julia(t_data *fractol)
 	int		i;
 
 	x = 0;
+	i = 0;
 	while(x < 500)
 	{
 		fractol->cr = fractol->minr + (fractol->maxr - fractol->minr) * x / 500;
@@ -36,11 +37,9 @@ void	draw_julia(t_data *fractol)
 			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
 			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol);
 			if (i == fractol->itter)
-			{
-				fractol->addr[(y*500) + x] = 0x000000;
-			}
+				fractol->addr[(y * 500) + x] = 0x000000;
 			else
-				fractol->addr[(y*500) + x] = 0xffffff*i;
+				fractol->addr[(y * 500) + x] = 0xffffff * i;
 			y++;
 		}
 		x++;

@@ -1,7 +1,6 @@
 # ifndef FRACTOL_H
 #define FRACTOL_H
 # include <mlx.h>
-# include "libft/libft.h"
 # include<stdlib.h>
 # include<unistd.h>
 # include<math.h>
@@ -38,6 +37,7 @@ typedef struct s_data
 	int		itter;
 	double	cx;
 	double	cy;
+	int		id;
 	t_cor	zoom;
 }		t_data;
 
@@ -46,9 +46,10 @@ int	keypress(int keycode, t_data *fractol);
 int	keycode(int keycode, t_data *data);
 int	closer(int button, t_data *var);
 int	itter(double cr, double ci, double max, t_data *fra);
+int	itter1(double cr, double ci, double max, t_data *fra);
 int	mosse_mov(int x, int y, t_data *fra);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int	fractol(int id, t_data *fra);
+int	fractol(t_data *fra);
 int main(int argc, char **argv);
 void	ft_julia(t_data *data);
 void	draw_mand(t_data *fractol);

@@ -4,25 +4,25 @@
 #include<unistd.h>
 # include<stdio.h>
 
-// int	itter(double cr, double ci, double max, t_data *fra)
-// {
-// 	double	zr;
-// 	double	zi;
-// 	double	tmp;
-// 	int		i;
+int	itter1(double cr, double ci, double max, t_data *fra)
+{
+	double	zr;
+	double	zi;
+	double	tmp;
+	int		i;
 
-// 	zr = 0;
-// 	zi = 0;
-// 	i = 0;
-// 	while(i < max && (zr * zr + zi * zi) < 4)
-// 	{
-// 		tmp = zr;
-// 		zr = zr * zr - zi * zi + cr;
-// 		zi = 2*zi * tmp + ci;
-// 		i++;
-// 	}
-// 	return (i);
-// }
+	zr = 0;
+	zi = 0;
+	i = 0;
+	while(i < max && (zr * zr + zi * zi) < 4)
+	{
+		tmp = zr;
+		zr = zr * zr - zi * zi + cr;
+		zi = 2*zi * tmp + ci;
+		i++;
+	}
+	return (i);
+}
 
 void	draw_mand(t_data *fractol)
 {
@@ -31,7 +31,6 @@ void	draw_mand(t_data *fractol)
 	int		i;
 
 	x = 0;
-	fractol->addr = (int *)mlx_get_data_addr(fractol->img, &fractol->bit_per_pixel, &fractol->line_lenght, &fractol->endian);
 	while(x < 500)
 	{
 		fractol->cr = fractol->minr + (fractol->maxr - fractol->minr) * x / 500;
@@ -39,7 +38,7 @@ void	draw_mand(t_data *fractol)
 		while(y < 500)
 		{
 			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
-			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol);
+			i = itter1(fractol->cr, fractol->ci, fractol->itter, fractol);
 			if (i == fractol->itter)
 			{
 				fractol->addr[(y*500) + x] = 0x000000;
@@ -61,3 +60,20 @@ void	ft_mand(t_data *data)
 	data->itter = 250;
 	draw_mand(data);
 }
+
+// int main(int argc, char **argv)
+// {
+// 	t_data fra;
+
+// 	fra.mlx = mlx_init();
+// 	fra.mlx_win = mlx_new_window(fra.mlx, 500, 500, "fract-ol");
+// 	fra.img = mlx_new_image(fra.mlx, 500, 500);
+// 		ft_mand(&fra);
+// 	mlx_put_image_to_window(fra.mlx, fra.mlx_win, fra.img, 0, 0);
+// 	mlx_key_hook(fra.mlx_win, keycode, &fra);
+// 	mlx_hook(fra.mlx_win, 4, 0, &zoom, &fra);
+// 	mlx_hook(fra.mlx_win, 6, 0, &mosse_mov, &fra);
+// 	mlx_hook(fra.mlx_win, 17, 0, &closer, &fra);
+// 	mlx_loop(fra.mlx);
+// 	return 0;
+// }

@@ -37,6 +37,9 @@ void	clear_redraw(t_data *var)
 	mlx_destroy_image(var->mlx, var->img);
 	mlx_clear_window(var->mlx, var->mlx_win);
 	var->img = mlx_new_image(var->mlx, 500, 500);
-	draw_mand(var);
+	if (var->id == 0)
+		draw_julia(var);
+	else if (var->id == 1)
+		draw_mand(var);
 	mlx_put_image_to_window(var->mlx, var->mlx_win, var->img, 0, 0);
 }
