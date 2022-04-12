@@ -1,4 +1,4 @@
-#include "fractol.h"
+#include "../fractol.h"
 
 int	mosse_mov(int x, int y, t_data *fra)
 {
@@ -35,8 +35,9 @@ int	zoom(int keycode, int x, int y, t_data *fractol)
 void	clear_redraw(t_data *var)
 {
 	mlx_destroy_image(var->mlx, var->img);
-	mlx_clear_window(var->mlx, var->mlx_win);
 	var->img = mlx_new_image(var->mlx, 500, 500);
+	mlx_clear_window(var->mlx, var->mlx_win);
+	var->addr = (int *)mlx_get_data_addr(var->img, &var->bit_per_pixel, &var->line_lenght, &var->endian);
 	if (var->id == 0)
 		draw_julia(var);
 	else if (var->id == 1)

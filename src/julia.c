@@ -1,4 +1,4 @@
-# include"fractol.h"
+# include"../fractol.h"
 
 int	itter(double cr, double ci, double max, t_data *fra)
 {

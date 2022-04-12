@@ -15,7 +15,6 @@ typedef struct cor
 typedef struct s_data
 {
 	int		i;
-	int		j;
 	void	*mlx;
 	void	*mlx_win;
 	int		*addr;
@@ -29,14 +28,11 @@ typedef struct s_data
 	int		line_lenght;
 	double	cr;
 	double	ci;
-	int		m;
 	double	maxr;
 	double	maxi;
 	double	minr;
 	double	mini;
 	int		itter;
-	double	cx;
-	double	cy;
 	int		id;
 	t_cor	zoom;
 }		t_data;
@@ -46,7 +42,7 @@ int	keypress(int keycode, t_data *fractol);
 int	keycode(int keycode, t_data *data);
 int	closer(int button, t_data *var);
 int	itter(double cr, double ci, double max, t_data *fra);
-int	itter1(double cr, double ci, double max, t_data *fra);
+int	itter1(double cr, double ci, double max);
 int	mosse_mov(int x, int y, t_data *fra);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 int	fractol(t_data *fra);

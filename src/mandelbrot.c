@@ -1,10 +1,10 @@
 #include <mlx.h>
-#include"fractol.h"
+#include"../fractol.h"
 #include<stdlib.h>
 #include<unistd.h>
 # include<stdio.h>
 
-int	itter1(double cr, double ci, double max, t_data *fra)
+int	itter1(double cr, double ci, double max)
 {
 	double	zr;
 	double	zi;
@@ -38,7 +38,7 @@ void	draw_mand(t_data *fractol)
 		while(y < 500)
 		{
 			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
-			i = itter1(fractol->cr, fractol->ci, fractol->itter, fractol);
+			i = itter1(fractol->cr, fractol->ci, fractol->itter);
 			if (i == fractol->itter)
 			{
 				fractol->addr[(y*500) + x] = 0x000000;

@@ -1,4 +1,4 @@
-# include"fractol.h"
+# include"../fractol.h"
 
 int	fractol(t_data *fra)
 {
@@ -23,15 +23,18 @@ int main(int argc, char **argv)
 {
 	t_data fra;
 
-	if (!(ft_strncmp(argv[1], "mandelbrot", 11)))
+	if (argc > 1)
 	{
-		fra.id = 0;
-		fractol(&fra);
-	}
-	else if (!(ft_strncmp(argv[1], "julia", 6)))
-	{
-		fra.id = 1;
-		fractol(&fra);
+		if (!(ft_strncmp(argv[1], "mandelbrot", 11)))
+		{
+			fra.id = 0;
+			fractol(&fra);
+		}
+		else if (!(ft_strncmp(argv[1], "julia", 6)))
+		{
+			fra.id = 1;
+			fractol(&fra);
+		}
 	}
 	return 0;
 }
