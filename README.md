@@ -24,7 +24,7 @@ it on the Latin word fractus which means "broken" or "fractured".
 A fractal is an abstract mathematical object, like a curve or a surface, which pattern
 remains the same at every scale.
 Various natural phenomena – like the romanesco cabbage – have some fractal features.
-<img src= "https://www.google.com/url?sa=i&url=https%3A%2F%2Ffractalejulia.wordpress.com%2F&psig=AOvVaw0EYhOFZ6HNjIYHEwUYUhFj&ust=1649890704646000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCNjfk4PQj_cCFQAAAAAdAAAAABAD">
+<img src= "cropped-julia_set1.jpeg">
 
 ## Objectives
 
