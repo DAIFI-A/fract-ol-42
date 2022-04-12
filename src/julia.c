@@ -1,4 +1,16 @@
-# include"../fractol.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   julia.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adaifi <adaifi@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/12 22:28:18 by adaifi            #+#    #+#             */
+/*   Updated: 2022/04/12 22:29:47 by adaifi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../fractol.h"
 
 int	itter(double cr, double ci, double max, t_data *fra)
 {
@@ -10,7 +22,7 @@ int	itter(double cr, double ci, double max, t_data *fra)
 	zr = cr;
 	zi = ci;
 	i = 0;
-	while(i <= max && (zr * zr + zi * zi) <= 4)
+	while (i <= max && (zr * zr + zi * zi) <= 4)
 	{
 		tmp = zr;
 		zr = zr * zr - zi * zi - fra->zoom.corx;
@@ -28,13 +40,14 @@ void	draw_julia(t_data *fractol)
 
 	x = 0;
 	i = 0;
-	while(x < 500)
+	while (x < 500)
 	{
 		fractol->cr = fractol->minr + (fractol->maxr - fractol->minr) * x / 500;
 		y = 0;
-		while(y < 500)
+		while (y < 500)
 		{
-			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini) * y / 500;
+			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini)
+				* y / 500;
 			i = itter(fractol->cr, fractol->ci, fractol->itter, fractol);
 			if (i == fractol->itter)
 				fractol->addr[(y * 500) + x] = 0x000000;
