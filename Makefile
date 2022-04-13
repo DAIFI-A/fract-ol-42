@@ -6,11 +6,11 @@
 #    By: adaifi <adaifi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/31 20:05:24 by adaifi            #+#    #+#              #
-#    Updated: 2022/04/12 22:45:07 by adaifi           ###   ########.fr        #
+#    Updated: 2022/04/13 22:47:16 by adaifi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = julia.c main.c mandelbrot.c clear_redraw.c hook.c
+SRCS = julia.c main.c mandelbrot.c clear_redraw.c hook.c burningship.c
 SRCDIR = src
 OBJS_DIR = objs
 CC = clang

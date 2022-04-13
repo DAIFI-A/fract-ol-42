@@ -6,7 +6,7 @@
 /*   By: adaifi <adaifi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:28:18 by adaifi            #+#    #+#             */
-/*   Updated: 2022/04/12 22:29:47 by adaifi           ###   ########.fr       */
+/*   Updated: 2022/04/13 22:35:50 by adaifi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	draw_julia(t_data *fractol)
 			if (i == fractol->itter)
 				fractol->addr[(y * 500) + x] = 0x000000;
 			else
-				fractol->addr[(y * 500) + x] = 0xffffff * i;
+				fractol->addr[(y * 500) + x] = 0xff0000 * i;
 			y++;
 		}
 		x++;
@@ -61,8 +61,8 @@ void	draw_julia(t_data *fractol)
 
 void	ft_julia(t_data *data)
 {
-	data->zoom.corx = 0.3;
-	data->zoom.cory = 0.5;
+	data->zoom.corx = 0.285;
+	data->zoom.cory = 0.1;
 	data->minr = -2;
 	data->mini = -2;
 	data->maxr = 2;

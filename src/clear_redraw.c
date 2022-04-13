@@ -6,7 +6,7 @@
 /*   By: adaifi <adaifi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:30:59 by adaifi            #+#    #+#             */
-/*   Updated: 2022/04/12 22:47:02 by adaifi           ###   ########.fr       */
+/*   Updated: 2022/04/13 22:56:21 by adaifi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ void	clear_redraw(t_data *var)
 	mlx_destroy_image(var->mlx, var->img);
 	var->img = mlx_new_image(var->mlx, 500, 500);
 	mlx_clear_window(var->mlx, var->mlx_win);
-	if (var->id == 1)
+	if (var->id == 2)
 		draw_julia(var);
-	else if (var->id == 0)
+	else if (var->id == 1)
 		draw_mand(var);
+	else if (var->id == 3)
+		draw_burn(var);
 	mlx_put_image_to_window(var->mlx, var->mlx_win, var->img, 0, 0);
 }
 
