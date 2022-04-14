@@ -6,7 +6,7 @@
 /*   By: adaifi <adaifi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:26:15 by adaifi            #+#    #+#             */
-/*   Updated: 2022/04/13 23:03:10 by adaifi           ###   ########.fr       */
+/*   Updated: 2022/04/13 23:14:38 by adaifi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	draw_burn(t_data *fractol)
 		{
 			fractol->ci = fractol->mini + (fractol->maxi - fractol->mini)
 				* y / 500;
-			i = itter1(fractol->cr, fractol->ci, fractol->itter);
+			i = itter2(fractol->cr, fractol->ci, fractol->itter);
 			if (i == fractol->itter)
 				fractol->addr[(y * 500) + x] = 0x000000;
 			else

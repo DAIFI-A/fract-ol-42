@@ -6,7 +6,7 @@
 /*   By: adaifi <adaifi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:39:06 by adaifi            #+#    #+#             */
-/*   Updated: 2022/04/13 22:29:52 by adaifi           ###   ########.fr       */
+/*   Updated: 2022/04/13 23:13:00 by adaifi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,5 @@ int		itter2(double cr, double ci, double max);
 int		mosse_mov(int x, int y, t_data *fra);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		fractol(int id);
-int		main(int argc, char **argv);
 
 #endif
